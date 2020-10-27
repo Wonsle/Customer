@@ -10,7 +10,7 @@ namespace Customer.Controllers
     {
         protected override void HandleUnknownAction(string actionName)
         {            
-            this.Redirect($"/{actionName}");
+            this.Redirect($"/?{actionName}").ExecuteResult(this.ControllerContext);
         }
 
     }
