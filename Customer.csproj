@@ -221,6 +221,11 @@
     <Content Include="Views\客戶資料管理\Edit.cshtml" />
     <Content Include="Views\客戶資料管理\Details.cshtml" />
     <Content Include="Views\客戶資料管理\Delete.cshtml" />
+    <Content Include="Views\客戶銀行帳戶管理\List.cshtml" />
+    <Content Include="Views\客戶銀行帳戶管理\Details.cshtml" />
+    <Content Include="Views\客戶銀行帳戶管理\Edit.cshtml" />
+    <Content Include="Views\客戶銀行帳戶管理\Delete.cshtml" />
+    <Content Include="Views\客戶銀行帳戶管理\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

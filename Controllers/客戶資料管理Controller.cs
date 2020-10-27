@@ -43,7 +43,7 @@ namespace Customer.Controllers
 
                 db.客戶資料.Add(data);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("List");
             }
 
             return View(data);
@@ -69,7 +69,7 @@ namespace Customer.Controllers
                 item.地址 = data.地址;
 
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("List");
             }
 
             return View(data);
@@ -95,7 +95,7 @@ namespace Customer.Controllers
                 var tmp = db.客戶資料.Find(id);
                 db.客戶資料.Remove(tmp);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("List");
             }
 
             return View(db.客戶資料.Find(id));
