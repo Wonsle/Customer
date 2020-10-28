@@ -23,10 +23,9 @@ namespace Customer.Controllers
             return View(data);
         }
         [HttpPost]
-        public ActionResult List(int? id)
-        {
-            var data = db.客戶資料.Where(q => q.Id == id.Value).ToList();
-            return View(data);
+        public ActionResult List(string customerName)
+        {            
+            return View(db.客戶資料.Where(q=>q.客戶名稱==customerName).ToList());
         }
 
         public ActionResult Create()
@@ -93,7 +92,8 @@ namespace Customer.Controllers
             if (ModelState.IsValid)
             {
                 var tmp = db.客戶資料.Find(id);
-                db.客戶資料.Remove(tmp);
+                tmp.是否已刪除 = true;
+                
                 db.SaveChanges();
                 return RedirectToAction("List");
             }

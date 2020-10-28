@@ -88,7 +88,7 @@ namespace Customer.Controllers
             if (ModelState.IsValid)
             {
                 var tmp = db.客戶聯絡人.Find(id);
-                db.客戶聯絡人.Remove(tmp);
+                tmp.是否已刪除 = true;
                 db.SaveChanges();
                 return RedirectToAction("List");
             }

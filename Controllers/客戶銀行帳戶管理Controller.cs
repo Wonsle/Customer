@@ -22,6 +22,12 @@ namespace Customer.Controllers
             return View(db.客戶銀行資訊);
         }
 
+        [HttpPost]
+        public ActionResult List(string bankName)
+        {
+            return View(db.客戶銀行資訊.Where(q => q.銀行名稱 == bankName).ToList());
+        }
+
         public ActionResult Create()
         {
             ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
@@ -51,7 +57,7 @@ namespace Customer.Controllers
             if (ModelState.IsValid)
             {
                 var tmp = db.客戶銀行資訊.Find(data.Id);
-                
+
                 tmp.客戶資料 = data.客戶資料;
                 tmp.帳戶名稱 = data.帳戶名稱;
                 tmp.帳戶號碼 = data.帳戶號碼;
@@ -81,7 +87,7 @@ namespace Customer.Controllers
             if (ModelState.IsValid)
             {
                 var tmp = db.客戶銀行資訊.Find(id);
-                db.客戶銀行資訊.Remove(tmp);
+                tmp.是否已刪除 = true;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
