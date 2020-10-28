@@ -27,7 +27,7 @@ namespace Customer.Models
         [StringLength(250, ErrorMessage="欄位長度不得大於 250 個字元")]
         [Required]
         public string Email { get; set; }
-        
+        [PhoneNumber]
         [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]
         public string 手機 { get; set; }
         

@@ -22,6 +22,12 @@ namespace Customer.Controllers
             return View(db.客戶聯絡人);
         }
 
+        [HttpPost]
+        public ActionResult List(string jobTitle)
+        {                        
+            return View(db.客戶聯絡人.Where(q => q.職稱 == jobTitle).ToList());
+        }
+
         public ActionResult Create()
         {
             ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
@@ -34,7 +40,7 @@ namespace Customer.Controllers
             if (ModelState.IsValid)
             {
                 db.客戶聯絡人.Add(data);
-                    db.SaveChanges();
+                db.SaveChanges();
                 return RedirectToAction("List");
             }
             ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
