@@ -12,7 +12,12 @@ namespace Customer.Models
         }
         public override void Delete(客戶資料 entity)
         {
-            entity.是否已刪除 = false;
+            entity.是否已刪除 = true;
+        }
+
+        public 客戶資料 FindById(int id)
+        {
+            return All().FirstOrDefault(q => q.Id == id);
         }
     }
 

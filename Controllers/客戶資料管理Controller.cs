@@ -1,4 +1,5 @@
 ﻿using Customer.Models;
+using Omu.ValueInjecter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,11 @@ namespace Customer.Controllers
     public class 客戶資料管理Controller : BaseController
     {
         客戶資料Entities db = new 客戶資料Entities();
+        客戶資料Repository repo;
+        public 客戶資料管理Controller()
+        {
+            repo = RepositoryHelper.Get客戶資料Repository();
+        }
         // GET: 客戶資料管理
         public ActionResult Index()
         {
@@ -19,13 +25,13 @@ namespace Customer.Controllers
         [HttpGet]
         public ActionResult List()
         {
-            var data = db.客戶資料.ToList();
-            return View(data);
+
+            return View(repo.All());
         }
         [HttpPost]
         public ActionResult List(string customerName)
-        {            
-            return View(db.客戶資料.Where(q=>q.客戶名稱==customerName).ToList());
+        {
+            return View(repo.All().Where(q => q.客戶名稱 == customerName).ToList());
         }
 
         public ActionResult Create()
@@ -39,9 +45,8 @@ namespace Customer.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                db.客戶資料.Add(data);
-                db.SaveChanges();
+                repo.Add(data);
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("List");
             }
 
@@ -50,8 +55,7 @@ namespace Customer.Controllers
 
         public ActionResult Edit(int? id)
         {
-
-            return View(db.客戶資料.Find(id.Value));
+            return View(repo.FindById(id.Value));
         }
 
         [HttpPost]
@@ -59,15 +63,9 @@ namespace Customer.Controllers
         {
             if (ModelState.IsValid)
             {
-                var item = db.客戶資料.Find(data.Id);
-                item.客戶名稱 = data.客戶名稱;
-                item.客戶聯絡人 = data.客戶聯絡人;
-                item.統一編號 = data.統一編號;
-                item.電話 = data.電話;
-                item.傳真 = data.傳真;
-                item.地址 = data.地址;
-
-                db.SaveChanges();
+                var item = repo.FindById(data.Id);
+                item.InjectFrom(data);
+                repo.UnitOfWork.Commit();                
                 return RedirectToAction("List");
             }
 
@@ -77,28 +75,26 @@ namespace Customer.Controllers
 
         public ActionResult Details(int? id)
         {
-
-            return View(db.客戶資料.Find(id.Value));
+            return View(repo.FindById(id.Value));
         }
 
         public ActionResult Delete(int? id)
         {
-
-            return View(db.客戶資料.Find(id.Value));
+            return View(repo.FindById(id.Value));
         }
         [HttpPost]
         public ActionResult Delete(int id)
         {
             if (ModelState.IsValid)
             {
-                var tmp = db.客戶資料.Find(id);
-                tmp.是否已刪除 = true;
+                var tmp = repo.FindById(id);
+                repo.Delete(tmp);
+                repo.UnitOfWork.Commit();
                 
-                db.SaveChanges();
                 return RedirectToAction("List");
             }
 
-            return View(db.客戶資料.Find(id));
+            return View(repo.FindById(id));
         }
     }
 }
