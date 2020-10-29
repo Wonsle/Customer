@@ -15,6 +15,10 @@ namespace Customer.Models
 
             entity.是否已刪除 = true;
         }
+        public 客戶聯絡人 FindById(int? id)
+        {
+            return All().FirstOrDefault(q => q.Id == id);
+        }
     }
 
 	public  interface I客戶聯絡人Repository : IRepository<客戶聯絡人>

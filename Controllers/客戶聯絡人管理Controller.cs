@@ -1,4 +1,5 @@
 ﻿using Customer.Models;
+using Omu.ValueInjecter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,15 @@ namespace Customer.Controllers
 {
     public class 客戶聯絡人管理Controller : BaseController
     {
-        客戶資料Entities db = new 客戶資料Entities();
+        //客戶資料Entities db = new 客戶資料Entities();
+        客戶聯絡人Repository repo;
+        客戶資料Repository 客戶資料repo;
+        public 客戶聯絡人管理Controller()
+        {
+            repo = RepositoryHelper.Get客戶聯絡人Repository();
+            客戶資料repo = RepositoryHelper.Get客戶資料Repository(repo.UnitOfWork);
+        }
+
         // GET: 客戶聯絡人管理
         public ActionResult Index()
         {
@@ -19,18 +28,18 @@ namespace Customer.Controllers
         public ActionResult List()
         {
 
-            return View(db.客戶聯絡人);
+            return View(repo.All());
         }
 
         [HttpPost]
         public ActionResult List(string jobTitle)
-        {                        
-            return View(db.客戶聯絡人.Where(q => q.職稱 == jobTitle).ToList());
+        {
+            return View(repo.All().Where(q => q.職稱 == jobTitle));
         }
 
         public ActionResult Create()
         {
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(客戶資料repo.All(), "Id", "客戶名稱");
             return View();
         }
 
@@ -39,61 +48,61 @@ namespace Customer.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶聯絡人.Add(data);
-                db.SaveChanges();
+                repo.Add(data);
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("List");
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(客戶資料repo.All(), "Id", "客戶名稱");
             return View(data);
         }
 
         public ActionResult Edit(int? id)
         {
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
-            return View(db.客戶聯絡人.Find(id.Value));
+            ViewBag.客戶Id = new SelectList(客戶資料repo.All(), "Id", "客戶名稱", id.Value);
+
+            return View(repo.FindById(id.Value));
+
         }
         [HttpPost]
         public ActionResult Edit(客戶聯絡人 data)
         {
             if (ModelState.IsValid)
             {
-                var tmp = db.客戶聯絡人.Find(data.Id);
-                tmp.姓名 = data.姓名;
-                tmp.客戶資料 = data.客戶資料;
-                tmp.手機 = data.手機;
-                tmp.職稱 = data.職稱;
-                tmp.電話 = data.電話;
-                tmp.Email = data.Email;
-                db.SaveChanges();
+
+                var tmp = repo.FindById(data.Id);
+                tmp.InjectFrom(data);
+                repo.UnitOfWork.Commit();
+                
                 return RedirectToAction("List");
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(客戶資料repo.All(), "Id", "客戶名稱", data.客戶Id);
             return View(data);
         }
 
         public ActionResult Details(int? id)
         {
 
-            return View(db.客戶聯絡人.Find(id.Value));
+            return View(repo.FindById(id.Value));
         }
 
         public ActionResult Delete(int? id)
         {
 
-            return View(db.客戶聯絡人.Find(id.Value));
+            return View(repo.FindById(id.Value));
         }
         [HttpPost]
         public ActionResult Delete(int id)
         {
             if (ModelState.IsValid)
             {
-                var tmp = db.客戶聯絡人.Find(id);
-                tmp.是否已刪除 = true;
-                db.SaveChanges();
+                var tmp = repo.FindById(id);
+                repo.Delete(tmp);
+                repo.UnitOfWork.Commit();
+                
                 return RedirectToAction("List");
             }
 
-            return View(db.客戶聯絡人.Find(id));
+            return View(repo.FindById(id));
         }
     }
 }
