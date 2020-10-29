@@ -89,7 +89,7 @@ namespace Customer.Controllers
                 var tmp = db.客戶銀行資訊.Find(id);
                 tmp.是否已刪除 = true;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("List");
             }
 
             return View(db.客戶銀行資訊.Find(id));
