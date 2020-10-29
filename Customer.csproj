@@ -148,6 +148,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\客戶統計資訊Controller.cs" />
     <Compile Include="Controllers\客戶聯絡人管理Controller.cs" />
     <Compile Include="Controllers\客戶資料管理Controller.cs" />
     <Compile Include="Controllers\客戶銀行帳戶管理Controller.cs" />
@@ -314,6 +315,7 @@
     <Content Include="Views\客戶聯絡人管理\Create.cshtml" />
     <Content Include="Views\客戶聯絡人管理\Edit.cshtml" />
     <Content Include="Views\客戶聯絡人管理\Details.cshtml" />
+    <Content Include="Views\客戶統計資訊\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
