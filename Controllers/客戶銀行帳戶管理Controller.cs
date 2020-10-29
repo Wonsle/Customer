@@ -1,4 +1,5 @@
 ﻿using Customer.Models;
+using Omu.ValueInjecter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,15 @@ namespace Customer.Controllers
 {
     public class 客戶銀行帳戶管理Controller : BaseController
     {
-        客戶資料Entities db = new 客戶資料Entities();
-        // GET: 客戶銀行帳戶管理
+
+        客戶銀行資訊Repository repo;
+        客戶資料Repository 客戶資料repo;
+
+        public 客戶銀行帳戶管理Controller()
+        {
+            repo = RepositoryHelper.Get客戶銀行資訊Repository();
+            客戶資料repo = RepositoryHelper.Get客戶資料Repository(repo.UnitOfWork);
+        }
         public ActionResult Index()
         {
             return View();
@@ -19,18 +27,18 @@ namespace Customer.Controllers
         public ActionResult List()
         {
 
-            return View(db.客戶銀行資訊);
+            return View(repo.All());
         }
 
         [HttpPost]
         public ActionResult List(string bankName)
         {
-            return View(db.客戶銀行資訊.Where(q => q.銀行名稱 == bankName).ToList());
+            return View(repo.All().Where(q => q.銀行名稱 == bankName).ToList());
         }
 
         public ActionResult Create()
         {
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(客戶資料repo.All(), "Id", "客戶名稱");
             return View();
         }
         [HttpPost]
@@ -38,61 +46,60 @@ namespace Customer.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶銀行資訊.Add(data);
-                db.SaveChanges();
+                repo.Add(data);
+                repo.UnitOfWork.Commit();
+
                 return RedirectToAction("List");
             }
-
+            ViewBag.客戶Id = new SelectList(客戶資料repo.All(), "Id", "客戶名稱");
             return View(data);
         }
 
         public ActionResult Edit(int? id)
         {
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
-            return View(db.客戶銀行資訊.Find(id.Value));
+            ViewBag.客戶Id = new SelectList(客戶資料repo.All(), "Id", "客戶名稱", id);
+            return View(repo.FindById(id.Value));
+
         }
         [HttpPost]
         public ActionResult Edit(客戶銀行資訊 data)
         {
             if (ModelState.IsValid)
             {
-                var tmp = db.客戶銀行資訊.Find(data.Id);
+                var tmp = repo.FindById(data.Id);
+                tmp.InjectFrom(data);
+                repo.UnitOfWork.Commit();
 
-                tmp.客戶資料 = data.客戶資料;
-                tmp.帳戶名稱 = data.帳戶名稱;
-                tmp.帳戶號碼 = data.帳戶號碼;
-                tmp.銀行代碼 = data.銀行代碼;
-                tmp.銀行名稱 = data.銀行名稱;
-                tmp.分行代碼 = data.分行代碼;
-                db.SaveChanges();
+
                 return RedirectToAction("List");
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(客戶資料repo.All(), "Id", "客戶名稱", data.Id);
             return View(data);
         }
 
         public ActionResult Details(int? id)
         {
 
-            return View(db.客戶銀行資訊.Find(id.Value));
+            return View(repo.FindById(id.Value));
         }
 
         public ActionResult Delete(int? id)
         {
-            return View(db.客戶銀行資訊.Find(id.Value));
+            return View(repo.FindById(id.Value));
         }
         [HttpPost]
         public ActionResult Delete(int id)
         {
             if (ModelState.IsValid)
             {
-                var tmp = db.客戶銀行資訊.Find(id);
-                tmp.是否已刪除 = true;
-                db.SaveChanges();
+                var tmp = repo.FindById(id);
+                repo.Delete(tmp);
+                repo.UnitOfWork.Commit();
+
                 return RedirectToAction("List");
             }
 
-            return View(db.客戶銀行資訊.Find(id));
+            return View(repo.FindById(id));
         }
     }
 }

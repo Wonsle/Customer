@@ -14,6 +14,11 @@ namespace Customer.Models
         {
             entity.是否已刪除 = true;
         }
+
+        public 客戶銀行資訊 FindById(int id)
+        {
+            return All().FirstOrDefault(q => q.Id == id);
+        }
     }
 
 	public  interface I客戶銀行資訊Repository : IRepository<客戶銀行資訊>
