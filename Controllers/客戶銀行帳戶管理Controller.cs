@@ -19,10 +19,6 @@ namespace Customer.Controllers
             repo = RepositoryHelper.Get客戶銀行資訊Repository();
             客戶資料repo = RepositoryHelper.Get客戶資料Repository(repo.UnitOfWork);
         }
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         public ActionResult List()
         {

@@ -302,9 +302,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\客戶資料管理\Index.cshtml" />
-    <Content Include="Views\客戶聯絡人管理\Index.cshtml" />
-    <Content Include="Views\客戶銀行帳戶管理\Index.cshtml" />
     <Content Include="Views\客戶資料管理\List.cshtml" />
     <Content Include="Views\客戶資料管理\Create.cshtml" />
     <Content Include="Views\客戶資料管理\Edit.cshtml" />

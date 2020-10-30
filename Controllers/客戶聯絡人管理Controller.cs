@@ -19,12 +19,6 @@ namespace Customer.Controllers
             客戶資料repo = RepositoryHelper.Get客戶資料Repository(repo.UnitOfWork);
         }
 
-        // GET: 客戶聯絡人管理
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         public ActionResult List()
         {
 

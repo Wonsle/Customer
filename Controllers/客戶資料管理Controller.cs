@@ -10,28 +10,31 @@ namespace Customer.Controllers
 {
     public class 客戶資料管理Controller : BaseController
     {
-        客戶資料Entities db = new 客戶資料Entities();
+
         客戶資料Repository repo;
         public 客戶資料管理Controller()
         {
             repo = RepositoryHelper.Get客戶資料Repository();
         }
-        // GET: 客戶資料管理
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         [HttpGet]
         public ActionResult List()
         {
+            ViewBag.客戶分類 = new SelectList(repo.All(), "客戶分類", "客戶分類");
 
             return View(repo.All());
         }
         [HttpPost]
         public ActionResult List(string customerName)
         {
+            ViewBag.客戶分類 = new SelectList(repo.All(), "客戶分類", "客戶分類");
             return View(repo.All().Where(q => q.客戶名稱 == customerName).ToList());
+        }
+        [HttpPost]
+        public ActionResult ListFromDropList(string 客戶分類)
+        {
+            ViewBag.客戶分類 = new SelectList(repo.All(), "客戶分類", "客戶分類");
+            return View("List",repo.All().Where(q => q.客戶分類 == 客戶分類));
         }
 
         public ActionResult Create()
@@ -65,7 +68,7 @@ namespace Customer.Controllers
             {
                 var item = repo.FindById(data.Id);
                 item.InjectFrom(data);
-                repo.UnitOfWork.Commit();                
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("List");
             }
 
@@ -90,7 +93,7 @@ namespace Customer.Controllers
                 var tmp = repo.FindById(id);
                 repo.Delete(tmp);
                 repo.UnitOfWork.Commit();
-                
+
                 return RedirectToAction("List");
             }
 
