@@ -22,7 +22,7 @@ namespace Customer.Controllers
         {
             //https://docs.microsoft.com/zh-tw/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/sorting-filtering-and-paging-with-the-entity-framework-in-an-asp-net-mvc-application#add-column-sort-links            
             ViewBag.客戶分類DropDownList = new SelectList(repo.All(), "客戶分類", "客戶分類");
-            ViewData["SortOrder"] = SortOrder;
+            
             var data = repo.All();
             switch (SortOrder)
             {

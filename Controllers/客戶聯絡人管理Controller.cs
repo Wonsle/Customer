@@ -19,10 +19,65 @@ namespace Customer.Controllers
             客戶資料repo = RepositoryHelper.Get客戶資料Repository(repo.UnitOfWork);
         }
 
-        public ActionResult List()
+        [HttpGet]
+        public ActionResult List(string SortOrder, FormCollection fc)
         {
-
-            return View(repo.All());
+            var data = repo.All();
+            switch (SortOrder)
+            {
+                case "職稱ASC":
+                    data = data.OrderBy(s => s.職稱);
+                    ViewBag.職稱 = "職稱ASC";
+                    break;
+                case "職稱DESC":
+                    data = data.OrderByDescending(s => s.職稱);
+                    ViewBag.職稱 = "職稱DESC";
+                    break;
+                case "姓名ASC":
+                    data = data.OrderBy(s => s.姓名);
+                    ViewBag.姓名 = "姓名ASC";
+                    break;
+                case "姓名DESC":
+                    data = data.OrderByDescending(s => s.姓名);
+                    ViewBag.姓名 = "姓名DESC";
+                    break;
+                case "EmailASC":
+                    data = data.OrderBy(s => s.Email);
+                    ViewBag.Email = "EmailASC";
+                    break;
+                case "EmailDESC":
+                    data = data.OrderByDescending(s => s.Email);
+                    ViewBag.Email = "EmailDESC";
+                    break;
+                case "手機ASC":
+                    data = data.OrderBy(s => s.手機);
+                    ViewBag.手機 = "手機ASC";
+                    break;
+                case "手機DESC":
+                    data = data.OrderByDescending(s => s.手機);
+                    ViewBag.手機 = "手機DESC";
+                    break;
+                case "電話ASC":
+                    data = data.OrderBy(s => s.電話);
+                    ViewBag.電話 = "電話ASC";
+                    break;
+                case "電話DESC":
+                    data = data.OrderByDescending(s => s.電話);
+                    ViewBag.電話 = "電話DESC";
+                    break;
+                case "客戶名稱ASC":
+                    data = data.OrderBy(s => s.客戶資料.客戶名稱);
+                    ViewBag.客戶名稱 = "客戶名稱ASC";
+                    break;
+                case "客戶名稱DESC":
+                    data = data.OrderByDescending(s => s.客戶資料.客戶名稱);
+                    ViewBag.客戶名稱 = "客戶名稱DESC";
+                    break;
+                default:
+                    data = data.OrderBy(s => s.Id);
+                    break;
+            }
+            return View(data);
         }
 
         [HttpPost]
@@ -72,7 +127,7 @@ namespace Customer.Controllers
                 var tmp = repo.FindById(data.Id);
                 tmp.InjectFrom(data);
                 repo.UnitOfWork.Commit();
-                
+
                 return RedirectToAction("List");
             }
             ViewBag.客戶Id = new SelectList(客戶資料repo.All(), "Id", "客戶名稱", data.客戶Id);
@@ -98,7 +153,7 @@ namespace Customer.Controllers
                 var tmp = repo.FindById(id);
                 repo.Delete(tmp);
                 repo.UnitOfWork.Commit();
-                
+
                 return RedirectToAction("List");
             }
 

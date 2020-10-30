@@ -25,21 +25,32 @@
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.職稱)
+            @Html.ActionLink("職稱", "List", new { SortOrder = ViewBag.職稱 == "職稱DESC" ? "職稱ASC" : "職稱DESC" })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.姓名)
+            @Html.ActionLink("姓名", "List", new { SortOrder = ViewBag.姓名 == "姓名DESC" ? "姓名ASC" : "姓名DESC" })
+
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Email)
+            @Html.ActionLink("Email", "List", new { SortOrder = ViewBag.Email == "EmailDESC" ? "EmailASC" : "EmailDESC" })
+
         </th>
         <th>
             @Html.DisplayNameFor(model => model.手機)
+            @Html.ActionLink("手機", "List", new { SortOrder = ViewBag.手機 == "手機DESC" ? "手機ASC" : "手機DESC" })
+
         </th>
         <th>
             @Html.DisplayNameFor(model => model.電話)
+            @Html.ActionLink("電話", "List", new { SortOrder = ViewBag.電話 == "電話DESC" ? "電話ASC" : "電話DESC" })
+
         </th>
         <th>
             @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
+            @Html.ActionLink("客戶名稱", "List", new { SortOrder = ViewBag.客戶名稱 == "客戶名稱DESC" ? "客戶名稱ASC" : "客戶名稱DESC" })
+
         </th>
         <th></th>
     </tr>
