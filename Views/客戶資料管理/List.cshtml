@@ -14,10 +14,16 @@
 }
 @using (Html.BeginForm("ListFromDropList", "客戶資料管理", "客戶分類", FormMethod.Post))
 {
-<p>
-    客戶分類  @Html.DropDownList("客戶分類", null, htmlAttributes: new { @class = "form-control" })
-    <input type="submit" value="查詢" />
-</p>
+    <p>
+        客戶分類  @Html.DropDownList("客戶分類DropDownList", null, htmlAttributes: new { @class = "form-control" })
+        <input type="submit" value="查詢" />
+    </p>
+}
+@using (Html.BeginForm("GetReport", "客戶資料管理", FormMethod.Post))
+{
+    <p>
+        <input type="submit" value="匯出XLSX" />
+    </p>
 }
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -25,25 +31,38 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.客戶名稱)
+
+            @Html.ActionLink("客戶名稱", "List", new { SortOrder = ViewBag.客戶名稱 == "客戶名稱DESC" ? "客戶名稱ASC": "客戶名稱DESC"})
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.統一編號)
+
+            @Html.ActionLink("統一編號", "List", new { SortOrder = ViewBag.統一編號 == "統一編號DESC" ? "統一編號ASC" : "統一編號DESC" })
+
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.電話)
+
+            @Html.ActionLink("電話", "List", new { SortOrder = ViewBag.電話 == "電話DESC" ? "電話ASC" : "電話DESC" })
+
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.傳真)
+
+            @Html.ActionLink("傳真", "List", new { SortOrder = ViewBag.傳真 == "傳真DESC" ? "傳真ASC" : "傳真DESC" })
+
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.地址)
+
+            @Html.ActionLink("地址", "List", new { SortOrder = ViewBag.地址 == "地址DESC" ? "地址ASC" : "地址DESC" })
+
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+
+            @Html.ActionLink("Email", "List", new { SortOrder = ViewBag.Email == "EmailDESC" ? "EmailASC" : "EmailDESC" })
+
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.客戶分類)
+
+            @Html.ActionLink("客戶分類", "List", new { SortOrder = ViewBag.客戶分類 == "客戶分類DESC" ? "客戶分類ASC" : "客戶分類DESC" })
+
         </th>
     </tr>
 

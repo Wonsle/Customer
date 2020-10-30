@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Customer.Models
 {
@@ -25,6 +26,23 @@ namespace Customer.Models
             if (count == 0)
                 base.Add(entity);
 
+        }
+        public CustomFile GetXLSXReport()
+        {
+            //https://dotblogs.com.tw/jennifer0201/2018/06/25/120535
+            var wb = new XSLXHelper().Export<客戶聯絡人>(All().OrderBy(q => q.Id));
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                wb.SaveAs(memoryStream);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                return new CustomFile()
+                {
+                    FileContents = memoryStream.ToArray(),
+                    ContentType = "application/vnd.ms-excel",
+                    FileName = "Report.xlsx"
+                };
+            }
         }
     }
 

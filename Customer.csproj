@@ -158,6 +158,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomFile.cs" />
     <Compile Include="Models\EFGeneratePartialClass.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -194,6 +195,7 @@
     <Compile Include="Models\sysdiagramsRepository.cs">
       <DependentUpon>IRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\XSLXHelper .cs" />
     <Compile Include="Models\客戶統計檢視.cs">
       <DependentUpon>客戶資料.tt</DependentUpon>
     </Compile>

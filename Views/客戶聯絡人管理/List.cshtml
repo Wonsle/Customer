@@ -12,6 +12,12 @@
         <input type="submit" value="查詢" />
     </p>
 }
+@using (Html.BeginForm("GetReport", "客戶聯絡人", FormMethod.Post))
+{
+    <p>
+        <input type="submit" value="匯出XLSX" />
+    </p>
+}
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>

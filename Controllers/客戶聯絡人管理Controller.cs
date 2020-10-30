@@ -31,6 +31,12 @@ namespace Customer.Controllers
             return View(repo.All().Where(q => q.職稱 == jobTitle));
         }
 
+        [HttpPost]
+        public ActionResult GetReport()
+        {
+            CustomFile cf = repo.GetXLSXReport();
+            return File(cf.FileContents, cf.ContentType, cf.FileName);
+        }
         public ActionResult Create()
         {
             ViewBag.客戶Id = new SelectList(客戶資料repo.All(), "Id", "客戶名稱");

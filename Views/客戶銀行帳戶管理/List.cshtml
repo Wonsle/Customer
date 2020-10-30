@@ -7,10 +7,16 @@
 <h2>List</h2>
 @using (Html.BeginForm())
 {
-<p>
-    銀行名稱: @Html.TextBox("bankName")
-    <input type="submit" value="查詢" />
-</p>
+    <p>
+        銀行名稱: @Html.TextBox("bankName")
+        <input type="submit" value="查詢" />
+    </p>
+}
+@using (Html.BeginForm("GetReport", "客戶銀行資訊", FormMethod.Post))
+{
+    <p>
+        <input type="submit" value="匯出XLSX" />
+    </p>
 }
 <p>
     @Html.ActionLink("Create New", "Create")
